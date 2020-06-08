@@ -1,14 +1,9 @@
 package main
 
-<<<<<<< HEAD
 import (
-	"io/ioutil"
+	"io/ioutil";
+	"fmt"
 )
-
-func main() {
-
-}
-
 func readFile() string {
 	fileContents, err := ioutil.ReadFile("first-post.txt")
 	if err != nil {
@@ -17,12 +12,15 @@ func readFile() string {
 
 	return string(fileContents)
 }
-
-func renderTemplate()
-=======
-import "fmt"
-
 func main() {
 	fmt.Println("Hello, world!")
+	read:=readFile()
+	fmt.Println(read)
+
 }
->>>>>>> 9514ac8a2c135a448a2b15a4b246dcd5d59ee7bf
+
+
+
+func renderTemplate(){
+
+}
