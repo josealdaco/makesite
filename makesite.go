@@ -1,44 +1,40 @@
 package main
 
 import (
-	"io/ioutil";
-	"fmt";
-	"html/template";
-        "os";
+	"flag"
+	"fmt"
+	"html/template"
+	"io/ioutil"
+	"os"
 )
-type Entry struct {
-        Content string
 
+type ContentFile struct {
+	Title   string
+	Content string
 }
 
+func save() {
+	fileContents, err := ioutil.ReadFile("first-post.txt") // Get text contents
 
-func readFile() string {
-	fileContents, err := ioutil.ReadFile("first-post.txt")
+	fmt.Println(string(fileContents)) // Convert and print contents to terminal
 	if err != nil {
 		panic(err)
 	}
 
-	return string(fileContents)
+	content := ContentFile{
+		Title:   "first-post-w" ,  // Place all content in a struct
+		Content: string(fileContents),
+	}
+	t := template.Must(template.ParseFiles("template.tmpl")) // Create template
+
+	file, err := os.Create("first-post.html") /// Create html file
+	t.Execute(os.Stdout, content) // Print html to terminal
+	t.Execute(file, content) /// Exctract data to new file that we created
+	file_flag := flag.String("latest-post.html", "defaultValue", ".txt") /// For the last step we updated the file name to extension html
+	flag.Parse()
+	fmt.Println(*file_flag) // We will have a pointerto the file flag value
 }
+
 func main() {
-	fmt.Println("Hello, world!")
-	read:=readFile()
-	fmt.Println(read)
-	paths := []string{
-		 "template.tmpl",
-	   }
-	 td := Entry{read}
-
-	 t := template.Must(template.New("template.tmpl").ParseFiles(paths...))
-         var err = t.Execute(os.Stdout, td)
-         if err != nil {
-           panic(err)
-         }
-
-}
-
-
-
-func renderTemplate(){
-
+	save()
 }
