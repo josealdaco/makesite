@@ -13,8 +13,8 @@ type ContentFile struct {
 	Content string
 }
 
-func save() {
-	fileContents, err := ioutil.ReadFile("first-post.txt") // Get text contents
+func save(filename string) {
+	fileContents, err := ioutil.ReadFile(filename) // Get text contents
 
 	fmt.Println(string(fileContents)) // Convert and print contents to terminal
 	if err != nil {
@@ -27,14 +27,29 @@ func save() {
 	}
 	t := template.Must(template.ParseFiles("template.tmpl")) // Create template
 
-	file, err := os.Create("first-post.html") /// Create html file
+	file, err := os.Create(filename[:len(filename)-4] + ".html") /// Create html file
 	t.Execute(os.Stdout, content) // Print html to terminal
 	t.Execute(file, content) /// Exctract data to new file that we created
-	file_flag := flag.String("latest-post.html", "defaultValue", ".txt") /// For the last step we updated the file name to extension html
+	//file_flag := flag.String("latest-post.html", "defaultValue", ".txt") /// For the last step we updated the file name to extension html
+	//flag.Parse()
+	//fmt.Println(*file_flag) // We will have a pointerto the file flag value
+	//fmt.Println(*file_flag) // We will have a pointerto the file flag value
+
+}
+
+
+func FlagEvent() {
+	fileFlag := flag.String("file", ".txt", "a string")
+	dirFlag := flag.String("dir", "search", "a string")
 	flag.Parse()
-	fmt.Println(*file_flag) // We will have a pointerto the file flag value
+	fmt.Println(*fileFlag)
+	fmt.Println(*dirFlag)
 }
 
 func main() {
-	save()
+	save("first-post.txt")
+	save("test1.txt")  // Save creates an html file for every filename we give it
+	save("test2.txt")
+	save("text3.txt")
+	FlagEvent() // Prints all txt files in the  same directory.
 }
